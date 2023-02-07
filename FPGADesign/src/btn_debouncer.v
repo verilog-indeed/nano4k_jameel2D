@@ -18,6 +18,7 @@ module btn_debouncer #(parameter
             delayCounter <= 0;
             debouncerReady <= 0;
             {noisyBuff2, noisyBuff1} <= 2'b00;
+            debounceOut <= 1;
         end else begin
             if (debouncerReady) begin
                 {noisyBuff2, noisyBuff1} <= {noisyBuff1, noisyIn}; //CDC
@@ -39,5 +40,6 @@ module btn_debouncer #(parameter
         delayCounter = 0;
         debouncerReady = 0;
         {noisyBuff2, noisyBuff1} = 2'b00;
+        debounceOut = 1;
     end
 endmodule
