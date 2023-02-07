@@ -1,0 +1,8 @@
+color_converters.v
+hdmi_tx.v
+num_of_ones.v
+pattern_generator_top.v
+synchronous_encoder_serializer.v
+gowin_pllvr\gowin_pllvr.v
+C:\Gowin\Gowin_V1.9.8.09_Education\IDE\simlib\gw1n\prim_sim.v
+//C:\Gowin\Gowin_V1.9.8.09_Education\IDE\simlib\gw1n\prim_tsim.v
