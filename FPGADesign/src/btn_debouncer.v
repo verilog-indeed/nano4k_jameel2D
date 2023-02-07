@@ -1,6 +1,7 @@
 module btn_debouncer #(parameter
     CLKIN_FREQ = 27_000_000, // 27MHz
-    DEBOUNCE_PERIOD = 1e-3 // 1ms
+    DEBOUNCE_PERIOD = 1e-3, // 1ms
+    IDLE_STATE = 1'b1 //default assumes an active-low button with weak pull-up 
 )(
     input clk,
     input reset,// active high
@@ -16,20 +17,22 @@ module btn_debouncer #(parameter
     always@(posedge clk) begin
         if (reset) begin
             delayCounter <= 0;
-            debouncerReady <= 0;
-            {noisyBuff2, noisyBuff1} <= 2'b00;
-            debounceOut <= 1;
+            debouncerReady <= 1;
+            {noisyBuff2, noisyBuff1} <= {IDLE_STATE, IDLE_STATE};
+            debounceOut <= IDLE_STATE;
         end else begin
+            {noisyBuff2, noisyBuff1} <= {noisyBuff1, noisyIn}; //CDC
             if (debouncerReady) begin
-                {noisyBuff2, noisyBuff1} <= {noisyBuff1, noisyIn}; //CDC
-                if (debounceOut ^ noisyBuff2) begin //edge detection
-                    debounceOut <= noisyBuff2;
+                debounceOut <= noisyBuff2;
+                if (noisyBuff2 != IDLE_STATE) begin
+                    //debounceOut <= !IDLE_STATE;
                     debouncerReady <= 0;
                 end
             end else begin
                 delayCounter <= delayCounter + 1;
                 if (delayCounter == DEBOUNCE_CYCLES) begin
                     delayCounter <= 0;
+                    //debounceOut <= IDLE_STATE;
                     debouncerReady <= 1;
                 end
             end
@@ -38,8 +41,8 @@ module btn_debouncer #(parameter
 
     initial begin
         delayCounter = 0;
-        debouncerReady = 0;
-        {noisyBuff2, noisyBuff1} = 2'b00;
-        debounceOut = 1;
+        debouncerReady = 1;
+        {noisyBuff2, noisyBuff1} <= {IDLE_STATE, IDLE_STATE};
+        debounceOut = IDLE_STATE;
     end
 endmodule

@@ -5,11 +5,11 @@ module btn_debouncer_tb;
     wire response;
         
     always #(37.04/2) clkin <= ~clkin; //27MHz
-    always #60 stimulus <= $urandom % 2; //randomly assign 0 or 1
+    //always #60 stimulus <= $urandom % 2; //randomly assign 0 or 1
 
     btn_debouncer #(
         .CLKIN_FREQ(27000000),
-        .DEBOUNCE_PERIOD(100e-9)
+        .DEBOUNCE_PERIOD(250e-9)
     ) DUT (
         .clk(clkin),
         .reset(rst),
@@ -27,7 +27,31 @@ module btn_debouncer_tb;
         stimulus = 1;
         #100; 
         rst = 0;
-        #10000;
+        #100;
+        stimulus = 0;
+        #60;
+        stimulus = 1;
+        #60;
+        stimulus = 0;
+        #60;
+        stimulus = 1;
+        #60;
+        stimulus = 0;
+        #300;
+        stimulus = 1;
+        #1000;
+        stimulus = 0;
+        #60;
+        stimulus = 1;
+        #60;
+        stimulus = 0;
+        #60;
+        stimulus = 1;
+        #60;
+        stimulus = 0;
+        #300;
+        stimulus = 1;
+        #1000;
         $finish;
     end
 endmodule
