@@ -2,19 +2,21 @@
 
 module btn_debouncer_tb;
     reg clkin, rst, stimulus;
-    wire response;
+    wire response, singleCycle;
         
     always #(37.04/2) clkin <= ~clkin; //27MHz
     //always #60 stimulus <= $urandom % 2; //randomly assign 0 or 1
 
     btn_debouncer #(
         .CLKIN_FREQ(27000000),
-        .DEBOUNCE_PERIOD(250e-9)
+        .DEBOUNCE_PERIOD(250e-9),
+        .IDLE_STATE(1'b1)
     ) DUT (
         .clk(clkin),
         .reset(rst),
         .noisyIn(stimulus),
-        .debounceOut(response)
+        .debounceOut(response),
+        .edgeDetectOut(singleCycle)
     );
 
     initial begin

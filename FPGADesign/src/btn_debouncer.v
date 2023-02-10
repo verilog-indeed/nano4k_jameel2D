@@ -6,7 +6,8 @@ module btn_debouncer #(parameter
     input clk,
     input reset,// active high
     input noisyIn,
-    output reg debounceOut
+    output reg debounceOut,
+    output reg edgeDetectOut
 );
     localparam integer DEBOUNCE_CYCLES = CLKIN_FREQ * DEBOUNCE_PERIOD;
     reg[$clog2(DEBOUNCE_CYCLES) - 1:0] delayCounter;
@@ -14,7 +15,7 @@ module btn_debouncer #(parameter
     reg noisyBuff2;
     reg debouncerReady;
 
-    always@(posedge clk) begin
+    always@(posedge clk) begin: debouncing
         if (reset) begin
             delayCounter <= 0;
             debouncerReady <= 1;
@@ -39,10 +40,19 @@ module btn_debouncer #(parameter
         end
     end
 
+    always@(posedge clk) begin: edge_detection
+        edgeDetectOut <= IDLE_STATE;
+        if (!reset && debouncerReady) begin
+            if ((debounceOut == IDLE_STATE) && (noisyBuff2 != IDLE_STATE))
+                edgeDetectOut <= !IDLE_STATE;
+        end
+    end
+
     initial begin
         delayCounter = 0;
         debouncerReady = 1;
-        {noisyBuff2, noisyBuff1} <= {IDLE_STATE, IDLE_STATE};
+        {noisyBuff2, noisyBuff1} = {IDLE_STATE, IDLE_STATE};
         debounceOut = IDLE_STATE;
+        edgeDetectOut = IDLE_STATE;
     end
 endmodule
