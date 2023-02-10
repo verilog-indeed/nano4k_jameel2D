@@ -1,5 +1,5 @@
 module anim_sprites_top (
-    input crystalCLK,
+    input crystalCLK, btn_X_raw, btn_Y_raw,
     output [2:0] tmdsChannel_p,
     output tmdsClockChannel_p,
     output [2:0] tmdsChannel_n,
@@ -28,18 +28,14 @@ module anim_sprites_top (
     localparam	WHITE	= {8'd255 , 8'd255 , 8'd255 };//{R,G,B}
     localparam	RED		= {8'd255, 8'd0   , 8'd0    };
 
+    //Button signals
+    wire btnX, btnY;
+
     always@(posedge crystalCLK) begin: sprite_drawing
-        if (spr_enable) begin
-            if (bmap[spr_addr_y][spr_addr_x] == 1'b1) begin
+        currentPixel <= WHITE;
+        if (spr_enable)
+            if (bmap[spr_addr_y][spr_addr_x] == 1'b1)
                 currentPixel <= INDIGO;
-            end else begin
-                currentPixel <= WHITE;
-            end
-        end else begin
-            currentPixel <= WHITE;
-        end
-        if (verticalPix == 11'd8) 
-            currentPixel <= RED;
     end
     
     always@(posedge crystalCLK) begin: sprite_enable
@@ -62,7 +58,15 @@ module anim_sprites_top (
             spr_y_en <= 0;
     end
 
-// comment to make icarus stfu
+    always@(posedge crystalCLK) begin: input_ctl
+        if (!btnX)
+            spr_x <= spr_x + 1;
+        if (!btnY)
+            spr_y <= spr_y + 1;
+    end
+
+
+// comment instantiations to make icarus stfu
     Gowin_PLLVR clock_5x(
         .clkout(multiplierClkOut), //output clkout
         .clkin(crystalCLK) //input clkin
@@ -83,6 +87,30 @@ module anim_sprites_top (
         .tmds_data_n(tmdsChannel_n),
         .hSync(hsync),
         .vSync(vsync)
+    );
+
+    btn_debouncer#(
+        .CLKIN_FREQ(27000000),
+        .DEBOUNCE_PERIOD(1e-3),
+        .IDLE_STATE(1'b1)
+    ) debounceX (
+        .clk(crystalCLK),
+        .noisyIn(btn_X_raw),
+        //.debounceOut(btnX),
+        .edgeDetectOut(btnX),
+        .reset(1'b0)
+    );
+
+    btn_debouncer#(
+        .CLKIN_FREQ(27000000),
+        .DEBOUNCE_PERIOD(1e-3),
+        .IDLE_STATE(1'b1)
+    ) debounceY (
+        .clk(crystalCLK),
+        .noisyIn(btn_Y_raw),
+        //.debounceOut(btnY),
+        .edgeDetectOut(btnY),
+        .reset(1'b0)
     );
 
     initial begin
