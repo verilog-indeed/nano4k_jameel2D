@@ -41,6 +41,33 @@
                 <Signal>spr_addr_x[1]</Signal>
                 <Signal>spr_addr_x[0]</Signal>
             </Bus>
+            <Bus name="spr_x[11:0]">
+                <Signal>spr_x[11]</Signal>
+                <Signal>spr_x[10]</Signal>
+                <Signal>spr_x[9]</Signal>
+                <Signal>spr_x[8]</Signal>
+                <Signal>spr_x[7]</Signal>
+                <Signal>spr_x[6]</Signal>
+                <Signal>spr_x[5]</Signal>
+                <Signal>spr_x[4]</Signal>
+                <Signal>spr_x[3]</Signal>
+                <Signal>spr_x[2]</Signal>
+                <Signal>spr_x[1]</Signal>
+                <Signal>spr_x[0]</Signal>
+            </Bus>
+            <Bus name="spr_y[10:0]">
+                <Signal>spr_y[10]</Signal>
+                <Signal>spr_y[9]</Signal>
+                <Signal>spr_y[8]</Signal>
+                <Signal>spr_y[7]</Signal>
+                <Signal>spr_y[6]</Signal>
+                <Signal>spr_y[5]</Signal>
+                <Signal>spr_y[4]</Signal>
+                <Signal>spr_y[3]</Signal>
+                <Signal>spr_y[2]</Signal>
+                <Signal>spr_y[1]</Signal>
+                <Signal>spr_y[0]</Signal>
+            </Bus>
         </SignalList>
         <Triggers>
             <Trigger index="0">
@@ -94,7 +121,7 @@
         <MatchUnits>
             <MatchUnit index="0" enabled="1" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="00000000000" value1="00000000000" trigger="0"/>
             <MatchUnit index="1" enabled="1" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="0000000000" value1="0000000000" trigger="1"/>
-            <MatchUnit index="2" enabled="1" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="0000000111" value1="0000000000" trigger="1"/>
+            <MatchUnit index="2" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="0000000111" value1="0000000000" trigger="1"/>
             <MatchUnit index="3" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
             <MatchUnit index="4" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
             <MatchUnit index="5" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
@@ -111,8 +138,7 @@
         </MatchUnits>
         <Expressions type="Dynamic">
             <Expression>M0&amp;M1</Expression>
-            <Expression>M0&amp;M2</Expression>
         </Expressions>
     </AoCore>
-    <GAO_ID>0111111110000110</GAO_ID>
+    <GAO_ID>0110110001101110</GAO_ID>
 </GAO_CONFIG>

@@ -53,7 +53,7 @@ module anim_sprites_top (
 
         //Reset at new scanline/frame
         if (hsync)
-            spr_x_en <= 0;
+            spr_x_en <= 0; //hsync reset might be unnecessary
         if (vsync)
             spr_y_en <= 0;
     end
