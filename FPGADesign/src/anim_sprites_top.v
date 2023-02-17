@@ -19,8 +19,7 @@ module anim_sprites_top (
     reg signed [10:0] spr_y;
     reg spr_x_en, spr_y_en;
     reg spr_data_rd;
-    wire[2:0] spr_addr_y = verticalPix - spr_y;
-    wire[2:0] spr_addr_x = 12'd7 - (horizontalPix - spr_x);
+    
 
     //Misc
 	localparam INDIGO = {8'd75   , 8'd0   , 8'd130   };
@@ -30,6 +29,9 @@ module anim_sprites_top (
     //Button signals
     wire btnX, btnY;
 
+    //! Sprite drawing. Reads sprite BRAM data and 
+    //! colors the current pixel based on whether
+    //! we should draw the main color(s) or background color
     always@(posedge crystalCLK) begin: sprite_drawing
         currentPixel <= WHITE;
         if (spr_enable)
@@ -37,6 +39,8 @@ module anim_sprites_top (
             if (bmap[spr_addr_y][spr_addr_x + 1] == 1'b1)
                 currentPixel <= INDIGO;
     end
+    wire[2:0] spr_addr_y = verticalPix - spr_y;
+    wire[2:0] spr_addr_x = 12'd7 - (horizontalPix - spr_x);
     
     
     //! Sprite enable generator.
