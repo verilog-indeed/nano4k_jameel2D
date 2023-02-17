@@ -33,7 +33,8 @@ module anim_sprites_top (
     always@(posedge crystalCLK) begin: sprite_drawing
         currentPixel <= WHITE;
         if (spr_enable)
-            if (bmap[spr_addr_y][spr_addr_x] == 1'b1)
+            //look up NEXT pixel to show
+            if (bmap[spr_addr_y][spr_addr_x + 1] == 1'b1)
                 currentPixel <= INDIGO;
     end
     
@@ -53,7 +54,8 @@ module anim_sprites_top (
         if (verticalPix == spr_y)
         //will trigger during front porch, no need to activate in the row before
             spr_y_en <= 1;
-        if (verticalPix == (spr_y + 8)) //lets row 7 finish before disabling
+        if (verticalPix == (spr_y + 8)) 
+        //lets row 7 finish before disabling
             spr_y_en <= 0;
 
         //Reset at new scanline/frame
@@ -65,6 +67,8 @@ module anim_sprites_top (
     //! Sprite enable output
     wire spr_enable = spr_x_en && spr_y_en;
 
+    //! Moves sprite forward in either X or Y axis 
+    //! using onboard push buttons
     always@(posedge crystalCLK) begin: input_ctl
         if (!btnX)
             spr_x <= spr_x + 1;
