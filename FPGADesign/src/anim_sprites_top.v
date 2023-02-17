@@ -18,7 +18,6 @@ module anim_sprites_top (
     reg signed [11:0] spr_x; //top-left corner coordinates
     reg signed [10:0] spr_y;
     reg spr_x_en, spr_y_en;
-    wire spr_enable = spr_x_en && spr_y_en;
     reg spr_data_rd;
     wire[2:0] spr_addr_y = verticalPix - spr_y;
     wire[2:0] spr_addr_x = 12'd7 - (horizontalPix - spr_x);
@@ -38,15 +37,21 @@ module anim_sprites_top (
                 currentPixel <= INDIGO;
     end
     
+    
+    //! Sprite enable generator.
+    //! Sprites are activated one clock cycle before they're shown on screen
+    //! to load them on the following cycle.  
     always@(posedge crystalCLK) begin: sprite_enable
         //Column check
-        if (horizontalPix == (spr_x - 1))
-            spr_x_en <= 1;
-        if (horizontalPix == (spr_x + 7))
+        if (horizontalPix == (spr_x - 2))
+        //activates on following clock cycle when hpix == spr_x - 1
+            spr_x_en <= 1; 
+        if (horizontalPix == (spr_x + 6))
             spr_x_en <= 0;
 
         //Row check
-        if (verticalPix == (spr_y - 1))
+        if (verticalPix == spr_y)
+        //will trigger during front porch, no need to activate in the row before
             spr_y_en <= 1;
         if (verticalPix == (spr_y + 8)) //lets row 7 finish before disabling
             spr_y_en <= 0;
@@ -57,6 +62,8 @@ module anim_sprites_top (
         if (vsync)
             spr_y_en <= 0;
     end
+    //! Sprite enable output
+    wire spr_enable = spr_x_en && spr_y_en;
 
     always@(posedge crystalCLK) begin: input_ctl
         if (!btnX)
