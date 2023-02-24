@@ -1,18 +1,18 @@
-//Copyright (C)2014-2021 Gowin Semiconductor Corporation.
+//Copyright (C)2014-2022 Gowin Semiconductor Corporation.
 //All rights reserved.
 //File Title: IP file
-//GOWIN Version: V1.9.8 Education
+//GOWIN Version: V1.9.8.09 Education
 //Part Number: GW1NSR-LV4CQN48PC6/I5
 //Device: GW1NSR-4C
-//Created Time: Sun Jun 26 20:20:34 2022
+//Created Time: Sat Feb 25 00:22:17 2023
 
-module Gowin_PLLVR (clkout, clkin);
+module Gowin_PLLVR (clkout, clkoutp, clkin);
 
 output clkout;
+output clkoutp;
 input clkin;
 
 wire lock_o;
-wire clkoutp_o;
 wire clkoutd_o;
 wire clkoutd3_o;
 wire gw_vcc;
@@ -24,7 +24,7 @@ assign gw_gnd = 1'b0;
 PLLVR pllvr_inst (
     .CLKOUT(clkout),
     .LOCK(lock_o),
-    .CLKOUTP(clkoutp_o),
+    .CLKOUTP(clkoutp),
     .CLKOUTD(clkoutd_o),
     .CLKOUTD3(clkoutd3_o),
     .RESET(gw_gnd),
@@ -56,7 +56,7 @@ defparam pllvr_inst.CLKOUT_DLY_STEP = 0;
 defparam pllvr_inst.CLKOUTP_DLY_STEP = 0;
 defparam pllvr_inst.CLKFB_SEL = "internal";
 defparam pllvr_inst.CLKOUT_BYPASS = "false";
-defparam pllvr_inst.CLKOUTP_BYPASS = "false";
+defparam pllvr_inst.CLKOUTP_BYPASS = "true";
 defparam pllvr_inst.CLKOUTD_BYPASS = "false";
 defparam pllvr_inst.DYN_SDIV_SEL = 2;
 defparam pllvr_inst.CLKOUTD_SRC = "CLKOUT";

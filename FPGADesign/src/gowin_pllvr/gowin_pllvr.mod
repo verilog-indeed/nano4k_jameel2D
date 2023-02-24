@@ -6,7 +6,7 @@
 
 -mod_name Gowin_PLLVR
 -file_name gowin_pllvr
--path D:/Nano4KProjects/nano4k_hdmi_tx/FPGADesign/nano4k_hdmi_tx/src/gowin_pllvr/
+-path C:/DevStuff/Nano4K/nano4k_jameel2D/FPGADesign/src/gowin_pllvr/
 -type PLL
 -pllvr true
 -file_type vlg
@@ -26,8 +26,8 @@
 -en_lock false
 -clkout_bypass false
 -clkout_ft_dir 1
--en_clkoutp false
--clkoutp_bypass false
+-en_clkoutp true
+-clkoutp_bypass true
 -en_clkoutd false
 -clkoutd_bypass false
 -en_clkoutd3 false

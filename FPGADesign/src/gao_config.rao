@@ -36,69 +36,11 @@
                 <Signal>spr_addr_x[1]</Signal>
                 <Signal>spr_addr_x[0]</Signal>
             </Bus>
-            <Bus name="spr_x[11:0]">
-                <Signal>spr_x[11]</Signal>
-                <Signal>spr_x[10]</Signal>
-                <Signal>spr_x[9]</Signal>
-                <Signal>spr_x[8]</Signal>
-                <Signal>spr_x[7]</Signal>
-                <Signal>spr_x[6]</Signal>
-                <Signal>spr_x[5]</Signal>
-                <Signal>spr_x[4]</Signal>
-                <Signal>spr_x[3]</Signal>
-                <Signal>spr_x[2]</Signal>
-                <Signal>spr_x[1]</Signal>
-                <Signal>spr_x[0]</Signal>
-            </Bus>
-            <Bus name="horizontalPix[11:0]">
-                <Signal>horizontalPix[11]</Signal>
-                <Signal>horizontalPix[9]</Signal>
-                <Signal>horizontalPix[8]</Signal>
-                <Signal>horizontalPix[7]</Signal>
-                <Signal>horizontalPix[6]</Signal>
-                <Signal>horizontalPix[5]</Signal>
-                <Signal>horizontalPix[4]</Signal>
-                <Signal>horizontalPix[3]</Signal>
-                <Signal>horizontalPix[2]</Signal>
-                <Signal>horizontalPix[1]</Signal>
-                <Signal>horizontalPix[0]</Signal>
-            </Bus>
             <Signal>crystalCLK</Signal>
         </SignalList>
         <Triggers>
-            <Trigger index="0">
-                <SignalList>
-                    <Bus restorename="horizontalPix[11:0]">
-                        <Signal>horizontalPix[11]</Signal>
-                        <Signal>horizontalPix[9]</Signal>
-                        <Signal>horizontalPix[8]</Signal>
-                        <Signal>horizontalPix[7]</Signal>
-                        <Signal>horizontalPix[6]</Signal>
-                        <Signal>horizontalPix[5]</Signal>
-                        <Signal>horizontalPix[4]</Signal>
-                        <Signal>horizontalPix[3]</Signal>
-                        <Signal>horizontalPix[2]</Signal>
-                        <Signal>horizontalPix[1]</Signal>
-                        <Signal>horizontalPix[0]</Signal>
-                    </Bus>
-                </SignalList>
-            </Trigger>
-            <Trigger index="1">
-                <SignalList>
-                    <Bus restorename="verticalPix[10:0]">
-                        <Signal>verticalPix[10]</Signal>
-                        <Signal>verticalPix[8]</Signal>
-                        <Signal>verticalPix[7]</Signal>
-                        <Signal>verticalPix[6]</Signal>
-                        <Signal>verticalPix[5]</Signal>
-                        <Signal>verticalPix[4]</Signal>
-                        <Signal>verticalPix[3]</Signal>
-                        <Signal>verticalPix[2]</Signal>
-                        <Signal>verticalPix[1]</Signal>
-                        <Signal>verticalPix[0]</Signal>
-                    </Bus>
-                </SignalList>
-            </Trigger>
+            <Trigger index="0"/>
+            <Trigger index="1"/>
             <Trigger index="2">
                 <SignalList>
                     <Signal>spr_enable</Signal>
@@ -148,5 +90,5 @@
             <Expression>M3&amp;M4</Expression>
         </Expressions>
     </AoCore>
-    <GAO_ID>0101111110101110</GAO_ID>
+    <GAO_ID>1110000011010110</GAO_ID>
 </GAO_CONFIG>

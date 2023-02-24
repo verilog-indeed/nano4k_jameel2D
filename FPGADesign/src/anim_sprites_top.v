@@ -12,11 +12,12 @@ module anim_sprites_top (
     wire vsync, hsync;
     wire displayEnable;
     wire multiplierClkOut;
+    wire pixelClk;
 
     //Sprite signals
     reg[7:0] bmap [7:0]; //8x8 monochrome sprite
-    reg signed [11:0] spr_x; //top-left corner coordinates
-    reg signed [10:0] spr_y;
+    reg signed [10:0] spr_x; //top-left corner coordinates
+    reg signed [9:0] spr_y;
     reg spr_x_en, spr_y_en;
     reg spr_data_rd;
     
@@ -33,7 +34,7 @@ module anim_sprites_top (
     //! colors the current pixel based on whether
     //! we should draw the main color(s) or background color
 /*
-    always@(posedge crystalCLK) begin: sprite_drawing
+    always@(posedge pixelClk) begin: sprite_drawing
         currentPixel <= WHITE;
         if (spr_enable)
             //look up NEXT pixel to show
@@ -42,7 +43,7 @@ module anim_sprites_top (
     end
 */
 
-    always@(posedge crystalCLK) begin: sprite_drawing
+    always@(posedge pixelClk) begin: sprite_drawing
         currentPixel <= {24{1'b0}};
         if (spr_enable) begin
             currentPixel <= {24{bmap[spr_addr_y][spr_addr_x + 1'b1]}};
@@ -52,7 +53,7 @@ module anim_sprites_top (
     wire[2:0] spr_addr_y = verticalPix - spr_y;
     //wire[2:0] spr_addr_x = 12'd7 - (horizontalPix - spr_x);
     reg[2:0] spr_addr_x;
-    always@(posedge crystalCLK) begin
+    always@(posedge pixelClk) begin
         if (spr_enable)
             spr_addr_x <= spr_addr_x - 1;
         else
@@ -62,7 +63,7 @@ module anim_sprites_top (
     //! Sprite enable generator.
     //! Sprites are activated one clock cycle before they're shown on screen
     //! to load them on the following cycle.  
-    always@(posedge crystalCLK) begin: sprite_enable
+    always@(posedge pixelClk) begin: sprite_enable
         //Column check
         if (horizontalPix == (spr_x - 2)) begin
         //activates on following clock cycle when hpix == spr_x - 1
@@ -92,7 +93,7 @@ module anim_sprites_top (
 
     //! Moves sprite forward in either X or Y axis 
     //! using onboard push buttons
-    always@(posedge crystalCLK) begin: input_ctl
+    always@(posedge pixelClk) begin: input_ctl
         if (!btnX)
             spr_x <= spr_x + 1'b1;
         if (!btnY)
@@ -103,11 +104,12 @@ module anim_sprites_top (
 // comment instantiations to make icarus stfu
     Gowin_PLLVR clock_5x(
         .clkout(multiplierClkOut), //output clkout
+        .clkoutp(pixelClk), //clkin buffer for better timings
         .clkin(crystalCLK) //input clkin
     );
 
     hdmi_tx video_transmitter(
-        .pixelClock(crystalCLK),
+        .pixelClock(pixelClk),
         .serialClock(multiplierClkOut),
         .redByte(currentPixel[23:16]),
         .greenByte(currentPixel[15:8]),
@@ -128,7 +130,7 @@ module anim_sprites_top (
         .DEBOUNCE_PERIOD(1e-3),
         .IDLE_STATE(1'b1)
     ) debounceX (
-        .clk(crystalCLK),
+        .clk(pixelClk),
         .noisyIn(btn_X_raw),
         //.debounceOut(btnX),
         .edgeDetectOut(btnX),
@@ -140,7 +142,7 @@ module anim_sprites_top (
         .DEBOUNCE_PERIOD(1e-3),
         .IDLE_STATE(1'b1)
     ) debounceY (
-        .clk(crystalCLK),
+        .clk(pixelClk),
         .noisyIn(btn_Y_raw),
         //.debounceOut(btnY),
         .edgeDetectOut(btnY),
