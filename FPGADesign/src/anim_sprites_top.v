@@ -7,8 +7,8 @@ module anim_sprites_top (
 );
     //HDMI interface signals
     reg[23:0] currentPixel; //{R8, G8, B8}
-    wire signed [11:0] horizontalPix;
-    wire signed [10:0] verticalPix;
+    wire signed [10:0] horizontalPix;
+    wire signed [9:0] verticalPix;
     wire vsync, hsync;
     wire displayEnable;
     wire multiplierClkOut;
@@ -44,8 +44,10 @@ module anim_sprites_top (
 
     always@(posedge crystalCLK) begin: sprite_drawing
         currentPixel <= {24{1'b0}};
-        if (spr_enable)
+        if (spr_enable) begin
             currentPixel <= {24{bmap[spr_addr_y][spr_addr_x + 1'b1]}};
+            $write("@");
+        end
     end
     wire[2:0] spr_addr_y = verticalPix - spr_y;
     //wire[2:0] spr_addr_x = 12'd7 - (horizontalPix - spr_x);
@@ -62,11 +64,14 @@ module anim_sprites_top (
     //! to load them on the following cycle.  
     always@(posedge crystalCLK) begin: sprite_enable
         //Column check
-        if (horizontalPix == (spr_x - 2))
+        if (horizontalPix == (spr_x - 2)) begin
         //activates on following clock cycle when hpix == spr_x - 1
-            spr_x_en <= 1; 
-        if (horizontalPix == (spr_x + 6))
+            spr_x_en <= 1;
+            $write("\n");
+        end
+        if (horizontalPix == (spr_x + 6)) begin
             spr_x_en <= 0;
+        end
 
         //Row check
         if (verticalPix == spr_y)
