@@ -32,16 +32,30 @@ module anim_sprites_top (
     //! Sprite drawing. Reads sprite BRAM data and 
     //! colors the current pixel based on whether
     //! we should draw the main color(s) or background color
+/*
     always@(posedge crystalCLK) begin: sprite_drawing
         currentPixel <= WHITE;
         if (spr_enable)
             //look up NEXT pixel to show
-            if (bmap[spr_addr_y][spr_addr_x + 1] == 1'b1)
+            if (bmap[spr_addr_y][spr_addr_x + 1'b1] == 1'b1)
                 currentPixel <= INDIGO;
     end
+*/
+
+    always@(posedge crystalCLK) begin: sprite_drawing
+        currentPixel <= {24{1'b0}};
+        if (spr_enable)
+            currentPixel <= {24{bmap[spr_addr_y][spr_addr_x + 1'b1]}};
+    end
     wire[2:0] spr_addr_y = verticalPix - spr_y;
-    wire[2:0] spr_addr_x = 12'd7 - (horizontalPix - spr_x);
-    
+    //wire[2:0] spr_addr_x = 12'd7 - (horizontalPix - spr_x);
+    reg[2:0] spr_addr_x;
+    always@(posedge crystalCLK) begin
+        if (spr_enable)
+            spr_addr_x <= spr_addr_x - 1;
+        else
+            spr_addr_x <= 0;
+    end
     
     //! Sprite enable generator.
     //! Sprites are activated one clock cycle before they're shown on screen
@@ -75,9 +89,9 @@ module anim_sprites_top (
     //! using onboard push buttons
     always@(posedge crystalCLK) begin: input_ctl
         if (!btnX)
-            spr_x <= spr_x + 1;
+            spr_x <= spr_x + 1'b1;
         if (!btnY)
-            spr_y <= spr_y + 1;
+            spr_y <= spr_y + 1'b1;
     end
 
 
@@ -129,14 +143,23 @@ module anim_sprites_top (
     );
 
     initial begin
-        bmap[0]  = 8'b1111_1100;
+        /*bmap[0]  = 8'b1111_1100;
         bmap[1]  = 8'b1000_0000;
         bmap[2]  = 8'b1000_0000;
         bmap[3]  = 8'b1111_1000;
         bmap[4]  = 8'b1000_0000;
         bmap[5]  = 8'b1000_0000;
         bmap[6]  = 8'b1000_0011;
-        bmap[7]  = 8'b0000_0011;
+        bmap[7]  = 8'b0000_0011;*/
+        bmap[0] = 8'hFF;
+        bmap[1] = 8'hFF;
+        bmap[2] = 8'hFF;
+        bmap[3] = 8'hFF;
+        bmap[4] = 8'hFF;
+        bmap[5] = 8'hFF;
+        bmap[6] = 8'hFF;
+        bmap[7] = 8'hFF;
+
 
         spr_x = 0;
         spr_y = 0;

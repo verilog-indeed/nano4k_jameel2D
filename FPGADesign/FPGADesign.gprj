@@ -12,6 +12,6 @@
         <File path="src/num_of_ones.v" type="file.verilog" enable="1"/>
         <File path="src/synchronous_encoder_serializer.v" type="file.verilog" enable="1"/>
         <File path="src/FPGADesign.cst" type="file.cst" enable="1"/>
-        <File path="src/gao_config.rao" type="file.gao" enable="0"/>
+        <File path="src/gao_config.rao" type="file.gao" enable="1"/>
     </FileList>
 </Project>

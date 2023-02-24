@@ -2,7 +2,7 @@
 <GAO_CONFIG>
     <Version>3.0</Version>
     <Mode>Standard</Mode>
-    <AoCore index="0" sample_clock="multiplierClkOut" trig_type="0" storage_depth="512" window_num="1" capture_amount="512" trigger_pos="0" module_name="anim_sprites_top" force_trigger_by_falling_edge="false">
+    <AoCore index="0" sample_clock="multiplierClkOut" trig_type="0" storage_depth="256" window_num="1" capture_amount="128" trigger_pos="0" module_name="anim_sprites_top" force_trigger_by_falling_edge="false">
         <SignalList>
             <Bus name="currentPixel[23:0]">
                 <Signal>currentPixel[23]</Signal>
@@ -31,11 +31,6 @@
                 <Signal>currentPixel[0]</Signal>
             </Bus>
             <Signal>spr_enable</Signal>
-            <Bus name="spr_addr_y[2:0]">
-                <Signal>spr_addr_y[2]</Signal>
-                <Signal>spr_addr_y[1]</Signal>
-                <Signal>spr_addr_y[0]</Signal>
-            </Bus>
             <Bus name="spr_addr_x[2:0]">
                 <Signal>spr_addr_x[2]</Signal>
                 <Signal>spr_addr_x[1]</Signal>
@@ -55,19 +50,20 @@
                 <Signal>spr_x[1]</Signal>
                 <Signal>spr_x[0]</Signal>
             </Bus>
-            <Bus name="spr_y[10:0]">
-                <Signal>spr_y[10]</Signal>
-                <Signal>spr_y[9]</Signal>
-                <Signal>spr_y[8]</Signal>
-                <Signal>spr_y[7]</Signal>
-                <Signal>spr_y[6]</Signal>
-                <Signal>spr_y[5]</Signal>
-                <Signal>spr_y[4]</Signal>
-                <Signal>spr_y[3]</Signal>
-                <Signal>spr_y[2]</Signal>
-                <Signal>spr_y[1]</Signal>
-                <Signal>spr_y[0]</Signal>
+            <Bus name="horizontalPix[11:0]">
+                <Signal>horizontalPix[11]</Signal>
+                <Signal>horizontalPix[9]</Signal>
+                <Signal>horizontalPix[8]</Signal>
+                <Signal>horizontalPix[7]</Signal>
+                <Signal>horizontalPix[6]</Signal>
+                <Signal>horizontalPix[5]</Signal>
+                <Signal>horizontalPix[4]</Signal>
+                <Signal>horizontalPix[3]</Signal>
+                <Signal>horizontalPix[2]</Signal>
+                <Signal>horizontalPix[1]</Signal>
+                <Signal>horizontalPix[0]</Signal>
             </Bus>
+            <Signal>crystalCLK</Signal>
         </SignalList>
         <Triggers>
             <Trigger index="0">
@@ -103,8 +99,20 @@
                     </Bus>
                 </SignalList>
             </Trigger>
-            <Trigger index="2"/>
-            <Trigger index="3"/>
+            <Trigger index="2">
+                <SignalList>
+                    <Signal>spr_enable</Signal>
+                </SignalList>
+            </Trigger>
+            <Trigger index="3">
+                <SignalList>
+                    <Bus restorename="spr_addr_y[2:0]">
+                        <Signal>spr_addr_y[2]</Signal>
+                        <Signal>spr_addr_y[1]</Signal>
+                        <Signal>spr_addr_y[0]</Signal>
+                    </Bus>
+                </SignalList>
+            </Trigger>
             <Trigger index="4"/>
             <Trigger index="5"/>
             <Trigger index="6"/>
@@ -119,11 +127,11 @@
             <Trigger index="15"/>
         </Triggers>
         <MatchUnits>
-            <MatchUnit index="0" enabled="1" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="00000000000" value1="00000000000" trigger="0"/>
-            <MatchUnit index="1" enabled="1" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="0000000000" value1="0000000000" trigger="1"/>
+            <MatchUnit index="0" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="00000000000" value1="00000000000" trigger="0"/>
+            <MatchUnit index="1" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="0000000000" value1="0000000000" trigger="1"/>
             <MatchUnit index="2" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="0000000111" value1="0000000000" trigger="1"/>
-            <MatchUnit index="3" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
-            <MatchUnit index="4" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
+            <MatchUnit index="3" enabled="1" match_type="1" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="R" value1="0" trigger="2"/>
+            <MatchUnit index="4" enabled="1" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="111" value1="000" trigger="3"/>
             <MatchUnit index="5" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
             <MatchUnit index="6" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
             <MatchUnit index="7" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
@@ -137,8 +145,8 @@
             <MatchUnit index="15" enabled="0" match_type="0" counter_enable="0" counter_width="2" counter="2" countinuous="0" func="0" value0="" value1=""/>
         </MatchUnits>
         <Expressions type="Dynamic">
-            <Expression>M0&amp;M1</Expression>
+            <Expression>M3&amp;M4</Expression>
         </Expressions>
     </AoCore>
-    <GAO_ID>0110110001101110</GAO_ID>
+    <GAO_ID>0101111110101110</GAO_ID>
 </GAO_CONFIG>
