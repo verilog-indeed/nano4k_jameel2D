@@ -4,39 +4,39 @@
     <Mode>Standard</Mode>
     <AoCore index="0" sample_clock="multiplierClkOut" trig_type="0" storage_depth="256" window_num="1" capture_amount="128" trigger_pos="0" module_name="anim_sprites_top" force_trigger_by_falling_edge="false">
         <SignalList>
-            <Bus name="currentPixel[23:0]">
-                <Signal>currentPixel[23]</Signal>
-                <Signal>currentPixel[22]</Signal>
-                <Signal>currentPixel[21]</Signal>
-                <Signal>currentPixel[20]</Signal>
-                <Signal>currentPixel[19]</Signal>
-                <Signal>currentPixel[18]</Signal>
-                <Signal>currentPixel[17]</Signal>
-                <Signal>currentPixel[16]</Signal>
-                <Signal>currentPixel[15]</Signal>
-                <Signal>currentPixel[14]</Signal>
-                <Signal>currentPixel[13]</Signal>
-                <Signal>currentPixel[12]</Signal>
-                <Signal>currentPixel[11]</Signal>
-                <Signal>currentPixel[10]</Signal>
-                <Signal>currentPixel[9]</Signal>
-                <Signal>currentPixel[8]</Signal>
-                <Signal>currentPixel[7]</Signal>
-                <Signal>currentPixel[6]</Signal>
-                <Signal>currentPixel[5]</Signal>
-                <Signal>currentPixel[4]</Signal>
-                <Signal>currentPixel[3]</Signal>
-                <Signal>currentPixel[2]</Signal>
-                <Signal>currentPixel[1]</Signal>
-                <Signal>currentPixel[0]</Signal>
-            </Bus>
+            <Signal>pixelClk</Signal>
             <Signal>spr_enable</Signal>
             <Bus name="spr_addr_x[2:0]">
                 <Signal>spr_addr_x[2]</Signal>
                 <Signal>spr_addr_x[1]</Signal>
                 <Signal>spr_addr_x[0]</Signal>
             </Bus>
-            <Signal>crystalCLK</Signal>
+            <Bus name="horizontalPix[10:0]">
+                <Signal>horizontalPix[10]</Signal>
+                <Signal>horizontalPix[9]</Signal>
+                <Signal>horizontalPix[8]</Signal>
+                <Signal>horizontalPix[7]</Signal>
+                <Signal>horizontalPix[6]</Signal>
+                <Signal>horizontalPix[5]</Signal>
+                <Signal>horizontalPix[4]</Signal>
+                <Signal>horizontalPix[3]</Signal>
+                <Signal>horizontalPix[2]</Signal>
+                <Signal>horizontalPix[1]</Signal>
+                <Signal>horizontalPix[0]</Signal>
+            </Bus>
+            <Signal>currentPixel[23]</Signal>
+            <Bus name="video_transmitter/blue_tmds/tmdsCharacterOut[9:0]">
+                <Signal>video_transmitter/blue_tmds/tmdsCharacterOut[9]</Signal>
+                <Signal>video_transmitter/blue_tmds/tmdsCharacterOut[8]</Signal>
+                <Signal>video_transmitter/blue_tmds/tmdsCharacterOut[7]</Signal>
+                <Signal>video_transmitter/blue_tmds/tmdsCharacterOut[6]</Signal>
+                <Signal>video_transmitter/blue_tmds/tmdsCharacterOut[5]</Signal>
+                <Signal>video_transmitter/blue_tmds/tmdsCharacterOut[4]</Signal>
+                <Signal>video_transmitter/blue_tmds/tmdsCharacterOut[3]</Signal>
+                <Signal>video_transmitter/blue_tmds/tmdsCharacterOut[2]</Signal>
+                <Signal>video_transmitter/blue_tmds/tmdsCharacterOut[1]</Signal>
+                <Signal>video_transmitter/blue_tmds/tmdsCharacterOut[0]</Signal>
+            </Bus>
         </SignalList>
         <Triggers>
             <Trigger index="0"/>
@@ -90,5 +90,5 @@
             <Expression>M3&amp;M4</Expression>
         </Expressions>
     </AoCore>
-    <GAO_ID>1110000011010110</GAO_ID>
+    <GAO_ID>0111000100110011</GAO_ID>
 </GAO_CONFIG>

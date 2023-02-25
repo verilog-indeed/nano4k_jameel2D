@@ -46,7 +46,7 @@ module anim_sprites_top (
     always@(posedge pixelClk) begin: sprite_drawing
         currentPixel <= {24{1'b0}};
         if (spr_enable) begin
-            currentPixel <= {24{bmap[spr_addr_y][spr_addr_x + 1'b1]}};
+            currentPixel <= {24{bmap[spr_addr_y][spr_addr_x]}};
             $write("@");
         end
     end
@@ -57,7 +57,7 @@ module anim_sprites_top (
         if (spr_enable)
             spr_addr_x <= spr_addr_x - 1;
         else
-            spr_addr_x <= 0;
+            spr_addr_x <= 7;
     end
     
     //! Sprite enable generator.
@@ -150,22 +150,22 @@ module anim_sprites_top (
     );
 
     initial begin
-        /*bmap[0]  = 8'b1111_1100;
+        bmap[0]  = 8'b1111_1100;
         bmap[1]  = 8'b1000_0000;
         bmap[2]  = 8'b1000_0000;
         bmap[3]  = 8'b1111_1000;
         bmap[4]  = 8'b1000_0000;
         bmap[5]  = 8'b1000_0000;
-        bmap[6]  = 8'b1000_0011;
-        bmap[7]  = 8'b0000_0011;*/
-        bmap[0] = 8'hFF;
-        bmap[1] = 8'hFF;
-        bmap[2] = 8'hFF;
-        bmap[3] = 8'hFF;
-        bmap[4] = 8'hFF;
-        bmap[5] = 8'hFF;
-        bmap[6] = 8'hFF;
-        bmap[7] = 8'hFF;
+        bmap[6]  = 8'b0000_0011;
+        bmap[7]  = 8'b1000_0011;
+//        bmap[0] = 8'hFF;
+//        bmap[1] = 8'hFF;
+//        bmap[2] = 8'hFF;
+//        bmap[3] = 8'hFF;
+//        bmap[4] = 8'hFF;
+//        bmap[5] = 8'hFF;
+//        bmap[6] = 8'hFF;
+//        bmap[7] = 8'hFF;
 
 
         spr_x = 0;
