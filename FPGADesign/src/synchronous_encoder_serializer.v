@@ -103,10 +103,7 @@ module synchronous_encoder_serializer(
 				//slightly faster butchering of DC balancing, for testing
 				encoderStage2[8:0] <= encoderStage1;
 
-				encoderStage2[9] <= ~encoderStage1[8]; 
-				if (encoderStage1[8] == 0) begin
-					encoderStage2[7:0] <= ~encoderStage1[7:0];
-				end
+				encoderStage2[9] <= 0; 
 
 				stage2Ready <= 1;
 			end else begin
